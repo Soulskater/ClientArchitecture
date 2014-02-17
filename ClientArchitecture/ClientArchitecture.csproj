@@ -15,7 +15,7 @@
     <AssemblyName>ClientArchitecture</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -187,6 +187,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -195,12 +196,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\jasmine.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jasmine-2.0.0\boot.js" />
     <Content Include="Scripts\jasmine-2.0.0\console.js" />
     <Content Include="Scripts\jasmine-2.0.0\jasmine-html.js" />
-    <Content Include="Scripts\jasmine-2.0.0\jasmine.css" />
     <Content Include="Scripts\jasmine-2.0.0\jasmine.js" />
     <Content Include="Scripts\jasmine-2.0.0\jasmine_favicon.png" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -208,6 +209,7 @@
     <Content Include="Scripts\Modules\utility.js" />
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\require.js" />
+    <Content Include="Scripts\Tests\utilityspec.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -250,10 +252,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\Tests\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -273,7 +277,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49983</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49983/</IISUrl>
+          <IISUrl>http://localhost/ClientArchitecture</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
