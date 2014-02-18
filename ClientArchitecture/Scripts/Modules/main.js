@@ -1,3 +1,3 @@
 ﻿define(function (require) {
-    var utils = require("utility");
+    var utils = require("Utility/general");
 });

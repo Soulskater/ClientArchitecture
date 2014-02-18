@@ -205,8 +205,12 @@
     <Content Include="Scripts\jasmine-2.0.0\jasmine.js" />
     <Content Include="Scripts\jasmine-2.0.0\jasmine_favicon.png" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Modules\exceptions.js" />
     <Content Include="Scripts\Modules\main.js" />
-    <Content Include="Scripts\Modules\utility.js" />
+    <Content Include="Scripts\Modules\Utility\number.js" />
+    <Content Include="Scripts\Modules\Utility\array.js" />
+    <Content Include="Scripts\Modules\Utility\string.js" />
+    <Content Include="Scripts\Modules\Utility\general.js" />
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\Tests\utilityspec.js" />
