@@ -11,5 +11,11 @@
     module.client.onInit(module.init);
     module.client.onStart(module.start);
 
+    document.addEventListener("onready", function () {
+        document.getElementById("btStart").addEventListener("click", function () {
+            hostapi.startApp(module.client.id);
+        }, false);
+    }, false);
+
     return module;
 }(App || {}, window.parent.HostApi));

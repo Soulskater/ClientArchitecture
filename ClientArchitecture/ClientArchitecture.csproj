@@ -197,8 +197,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\jasmine.css" />
+    <Content Include="Content\TestApp\preview.js" />
     <Content Include="Content\TestApp\app.js" />
     <Content Include="Content\TestApp\app_style.css" />
+    <Content Include="Content\TestApp\preview.html" />
     <Content Include="Content\TestApp\index.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
