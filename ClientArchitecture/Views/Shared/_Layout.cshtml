@@ -7,25 +7,20 @@
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/underscore")
     </head>
     <body>
         <header>
             <div class="content-wrapper">
-                Client Architecture
+                Dashboard
             </div>
         </header>
-        <div id="body">
+        <div>
             <section class="">
                 @RenderBody()
             </section>
         </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - Mészáros Gábor</p>
-                </div>
-            </div>
-        </footer>
         <script type="text/javascript" src="~/Scripts/Modules/exceptions.js"></script>
         <script type="text/javascript" src="~/Scripts/Modules/observable.js"></script>
         <script type="text/javascript" src="~/Scripts/Modules/Utility/general.js"></script>

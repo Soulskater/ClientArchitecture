@@ -1,9 +1,11 @@
-﻿var Client = function (id) {
+﻿var Client = function (id, previewUrl, url) {
     var obs = new Observable();
     var initialized = false;
 
     return {
         id: id,
+        previewUrl: previewUrl,
+        url: url,
         init: function () {
             if (initialized) return;
             obs.fireEvent("init");

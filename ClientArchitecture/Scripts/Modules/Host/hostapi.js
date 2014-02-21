@@ -14,8 +14,8 @@
         })[0].start();
     }
 
-    module.registerApp = function () {
-        var client = new Client(utils.getGuid());
+    module.registerApp = function (previewUrl, url) {
+        var client = new Client(utils.getGuid(), previewUrl, url);
         apps.push(client);
         return client;
     }
