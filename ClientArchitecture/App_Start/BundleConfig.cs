@@ -18,6 +18,17 @@ namespace ClientArchitecture
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*"));
             //
+            //Angular
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                        "~/Scripts/angular.js"));
+
+            //
+            //Angular scripts
+            bundles.Add(new ScriptBundle("~/scripts/angular").Include(
+                        "~/Scripts/Modules/UI/appmodule.js",
+                        "~/Scripts/Modules/UI/Controllers/*.js"));
+
+            //
             //Underscore
             bundles.Add(new ScriptBundle("~/bundles/underscore").Include(
                         "~/Scripts/underscore.js"));

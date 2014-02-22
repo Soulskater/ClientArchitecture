@@ -206,6 +206,8 @@
     <Content Include="Content\TestApp\index.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\jasmine-2.0.0\boot.js" />
     <Content Include="Scripts\jasmine-2.0.0\console.js" />
     <Content Include="Scripts\jasmine-2.0.0\jasmine-html.js" />
@@ -220,6 +222,8 @@
     <Content Include="Scripts\Modules\Host\hostapi.js" />
     <Content Include="Scripts\Modules\main.js" />
     <Content Include="Scripts\Modules\observable.js" />
+    <Content Include="Scripts\Modules\UI\appmodule.js" />
+    <Content Include="Scripts\Modules\UI\Controllers\HostCtrl.js" />
     <Content Include="Scripts\Modules\Utility\number.js" />
     <Content Include="Scripts\Modules\Utility\array.js" />
     <Content Include="Scripts\Modules\Utility\string.js" />

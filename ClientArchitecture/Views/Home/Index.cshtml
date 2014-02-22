@@ -2,8 +2,8 @@
     ViewBag.Title = "Home Page";
 }
 <h3>Hosted Apps:</h3>
-<div class="app-container">
-    <iframe src=""></iframe>
+<div class="app-container" ng-controller="HostCtrl">
+    <iframe ng-repeat="app in apps" src={{app.previewUrl}}></iframe>
 </div>
 <!--Test App-->
 @*<iframe src="" style="border: 1px solid #414141;"></iframe>*@

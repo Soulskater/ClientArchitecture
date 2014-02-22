@@ -8,9 +8,19 @@
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
         @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/angular")
         @Scripts.Render("~/bundles/underscore")
+        <script type="text/javascript" src="~/Scripts/Modules/exceptions.js"></script>
+        <script type="text/javascript" src="~/Scripts/Modules/observable.js"></script>
+        <script type="text/javascript" src="~/Scripts/Modules/Utility/general.js"></script>
+        <script type="text/javascript" src="~/Scripts/Modules/Utility/array.js"></script>
+        <script type="text/javascript" src="~/Scripts/Modules/Utility/string.js"></script>
+        <script type="text/javascript" src="~/Scripts/Modules/Host/hostapi.js"></script>
+        <script type="text/javascript" src="~/Scripts/Modules/Client/clientapi.js"></script>
+        <script type="text/javascript" src="~/Scripts/Modules/main.js"></script>
+        @Scripts.Render("~/scripts/angular")
     </head>
-    <body>
+    <body ng-app="hostapp">
         <header>
             <div class="content-wrapper">
                 Dashboard
@@ -21,14 +31,5 @@
                 @RenderBody()
             </section>
         </div>
-        <script type="text/javascript" src="~/Scripts/Modules/exceptions.js"></script>
-        <script type="text/javascript" src="~/Scripts/Modules/observable.js"></script>
-        <script type="text/javascript" src="~/Scripts/Modules/Utility/general.js"></script>
-        <script type="text/javascript" src="~/Scripts/Modules/Utility/array.js"></script>
-        <script type="text/javascript" src="~/Scripts/Modules/Utility/string.js"></script>
-        <script type="text/javascript" src="~/Scripts/Modules/Host/hostapi.js"></script>
-        <script type="text/javascript" src="~/Scripts/Modules/Client/clientapi.js"></script>
-        <script type="text/javascript" src="~/Scripts/Modules/main.js"></script>
-        @RenderSection("scripts", required: false)
     </body>
 </html>

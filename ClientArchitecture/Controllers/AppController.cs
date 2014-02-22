@@ -14,8 +14,8 @@ namespace ClientArchitecture.Controllers
         public IEnumerable<ApplicationModel> Get()
         {
             return new ApplicationModel[] { new ApplicationModel() { 
-                PreviewUrl = "~/Content/TestApp/preview.html",
-                AppUrl = "~/Content/TestApp/index.html"
+                PreviewUrl = "Content/TestApp/preview.html",
+                AppUrl = "Content/TestApp/index.html"
             }};
         }
 
