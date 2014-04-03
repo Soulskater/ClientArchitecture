@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="" />
+
+    <title></title>
+    <script src="./Scripts/jquery-2.1.0.js"></script>
+    <script src="./Scripts/scroll.js"></script>
+    <style>
+        html, body { height: 100%; overflow: hidden; }
+
+
+        .box-container { width: 350px; height: 250px; background: indianred; }
+        .box { width: 200px; height: 150px; background: #0094ff; }
+        .console { background: #c6c6c6; border: 1px solid #333; padding: 10px; position: absolute; left: 5px; right: 5px; bottom: 0; min-height: 100px; overflow: auto; resize: vertical; }
+            .console h3 { margin: 10px; }
+            .console .clear { font-size: 11pt; font-weight: normal; color: indianred; cursor: pointer; }
+        .immediate-box { height: 30px; width: 100%; resize: none; }
+        .messages { margin-top: 5px; }
+        .message { padding: 5px 10px; border-bottom: 1px solid #999999; position: relative; }
+
+        .scrollable { margin-left:20px; width: 600px; list-style-type: none; white-space: nowrap; padding: 10px; border: 1px solid #999999; overflow: auto; -webkit-overflow-scrolling: touch; }
+            .scrollable li { background: #8d8d8d; width: 150px; height: 150px; padding: 10px; border: 1px solid #999999; display: inline-block; margin-right: 5px; }
+
+        /*#pageWrapper { position: absolute; left: 0; right: 0; top: 0; bottom: 0; width: 100%; margin: 0; }*/
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document.body).iscroll();
+
+            $(".clear", ".console").click(function () { clearConsole(); });
+            $(".immediate-box", ".console").bind('keypress', function (event) {
+                if (event.keyCode === 13) {
+                    addConsole(eval($(this).val()));
+                }
+            });
+            window.addConsole = function (message) {
+                $("<div>").addClass("message").text(message).prependTo($(".messages", ".console"));
+            }
+
+            window.clearConsole = function () {
+                $(".messages", ".console").remove();
+            }
+
+            window.onerror = function (e) {
+                addConsole("Error: " + e + ", LineNo:" + event.lineno);
+            };
+        });
+    </script>
+</head>
+<body id="pageWrapper">
+    <!--<div class="box-container">
+        Container<br />
+        <span>Action<span id="contAction"></span></span>
+        <div class="box">
+            Child<br />
+            <span>Action<span id="boxAction"></span></span>
+        </div>
+    </div>-->
+
+    <ul class="scrollable" data-scroll="horizontal" style="margin-top: 30px;" id="scrollContainer">
+        <li id="scroll1">Element1</li>
+        <li id="scroll2">Element1</li>
+        <li id="scroll3">Element1</li>
+        <li>Element1</li>
+        <li>Element1</li>
+    </ul>
+    <div class="console">
+        <h3>Console <a class="clear">clear</a></h3>
+        <input type="text" placeholder="Expression to evaluate and press enter" class="immediate-box" />
+        <div class="messages">
+        </div>
+    </div>
+</body>
+</html>
