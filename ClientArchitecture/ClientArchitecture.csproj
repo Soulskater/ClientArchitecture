@@ -221,6 +221,7 @@
     <Content Include="Scripts\Modules\exceptions.js" />
     <Content Include="Scripts\Modules\Host\hostapi.js" />
     <Content Include="Scripts\Modules\main.js" />
+    <Content Include="Scripts\Modules\Network\NetworkManager.js" />
     <Content Include="Scripts\Modules\observable.js" />
     <Content Include="Scripts\Modules\UI\appmodule.js" />
     <Content Include="Scripts\Modules\UI\Controllers\HostCtrl.js" />
