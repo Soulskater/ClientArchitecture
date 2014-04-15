@@ -216,8 +216,10 @@
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
+    <Content Include="Scripts\mobileconsole.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Modules\Client\clientapi.js" />
+    <Content Include="Scripts\Modules\Deferred.js" />
     <Content Include="Scripts\Modules\exceptions.js" />
     <Content Include="Scripts\Modules\Host\hostapi.js" />
     <Content Include="Scripts\Modules\main.js" />

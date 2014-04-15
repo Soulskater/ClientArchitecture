@@ -3,6 +3,7 @@
 }
 <h3>Hosted Apps:</h3>
 <div class="app-container" ng-controller="HostCtrl">
+    <button ng-click="main.testNetworkManager()">Test Network</button>
     <iframe ng-repeat="app in apps" src={{app.previewUrl}}></iframe>
 </div>
 <!--Test App-->

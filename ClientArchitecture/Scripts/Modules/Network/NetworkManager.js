@@ -15,6 +15,7 @@ var networkManager = (function (observable) {
 
     var _isOnline = navigator.onLine || true;
     var _queue = [];
+    var _processing = false;
 
     /*
      * Handler, it triggers when the browser goes to offline
@@ -36,25 +37,31 @@ var networkManager = (function (observable) {
     /*
      * Handler, it triggers when a new item is created in the queue
      */
-    var addItemToQueue = function (handler, rollback) {
-        _queue.push({ id: _queue.length, handler: handler, rollback: rollback });
-        processQueue();
+    var addItemToQueue = function (dowork, rollback) {
+        _queue.push({ id: Utils.getGuid(), dowork: dowork, rollback: rollback });
+        if (!_processing) processQueue();
     }
 
     var processQueue = function () {
         if (_isOnline != true) return;
+        if (!_processing) _processing = true;
 
         var akt = _queue.shift();
         console.log("Queue item process started, id:" + akt.id);
 
-        akt.handler()
-            .done(function () {
-                if (_queue.length > 0)
-                    processQueue();
-            })
-            .fail(function () {
-                akt.rollback();
-            });
+        if (akt.dowork && typeof akt.dowork == 'function')
+            akt.dowork()
+                .done(function () {
+
+                })
+                .fail(function () {
+                    if (akt.rollback && typeof akt.rollback == 'function') akt.rollback();
+                });
+
+        if (_queue.length > 0)
+            processQueue();
+        else
+            _processing = false;
     }
 
     var _initialize = function () {

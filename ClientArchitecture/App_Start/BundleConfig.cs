@@ -25,8 +25,9 @@ namespace ClientArchitecture
             //
             //Angular scripts
             bundles.Add(new ScriptBundle("~/scripts/angular").Include(
-                        "~/Scripts/Modules/UI/appmodule.js",
-                        "~/Scripts/Modules/UI/Controllers/*.js"));
+                "~/Scripts/Modules/Network/NetworkManager.js",
+                "~/Scripts/Modules/UI/appmodule.js",
+                "~/Scripts/Modules/UI/Controllers/*.js"));
 
             //
             //Underscore

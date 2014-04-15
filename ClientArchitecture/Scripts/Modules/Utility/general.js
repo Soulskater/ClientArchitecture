@@ -7,5 +7,11 @@
         })
     };
 
+    module.sleep = function (seconds) {
+        var date = new Date();
+        while (new Date() - date < seconds * 1000)
+        { }
+    }
+
     return module;
 }(Utils || {}));
