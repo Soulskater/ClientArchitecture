@@ -1,5 +1,7 @@
 ﻿var App = (function (module, hostapi) {
 
+
+
     module.init = function () {
         alert("Test App initialized!");
     }
@@ -12,4 +14,4 @@
     module.client.onStart(module.start);
 
     return module;
-}(App || {}, window.parent.HostApi));
+}(App || {}, ClientCommunicator));

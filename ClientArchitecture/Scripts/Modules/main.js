@@ -7,7 +7,7 @@
     };
 
     module.testNetworkManager = function () {
-        networkManager.addToQueue(function () {
+        networkManager.withTransaction(function () {
             var deferred = Deferred();
             setTimeout(function () {
                 deferred.resolve();
@@ -16,7 +16,7 @@
 
             return deferred.promise;
         });
-        networkManager.addToQueue(function () {
+        networkManager.withTransaction(function () {
             var deferred = Deferred();
             setTimeout(function () {
                 deferred.resolve();
@@ -25,7 +25,7 @@
 
             return deferred.promise;
         });
-        networkManager.addToQueue(function () {
+        networkManager.withTransaction(function () {
             var deferred = Deferred();
             setTimeout(function () {
                 deferred.resolve();
@@ -34,7 +34,7 @@
 
             return deferred.promise;
         });
-        networkManager.addToQueue(function () {
+        networkManager.withTransaction(function () {
             var deferred = Deferred();
             setTimeout(function () {
                 deferred.reject();

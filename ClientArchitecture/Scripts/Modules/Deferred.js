@@ -32,6 +32,13 @@
                 _fail = f;
             return _promise;
         },
+        final: function (f) {
+            if (_promise.result)
+                f(_promise.result);
+            else
+                _final = f;
+            return _promise;
+        },
         combine: function (promise) {
             promise.then(function () {
 
@@ -46,18 +53,21 @@
     var _map = function (data) { _promise.result = data; return data; };
     var _success = undefined;
     var _fail = undefined;
+    var _final = undefined;
 
     var _resolve = function (data) {
         _promise.result = _map(data);
         _promise.loaded = true;
         if (_success) _success(_promise.result);
+        if (_final) _final(_promise.result);
     }
 
     var _reject = function (error) {
         _promise.result = error;
         _promise.loaded = true;
         _promise.hasError = true;
-        if (_fail) _fail(error);
+        if (_fail) _fail(_promise.result);
+        if (_final) _final(_promise.result);
     }
 
     return {
