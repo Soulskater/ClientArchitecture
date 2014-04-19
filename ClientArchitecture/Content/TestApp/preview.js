@@ -1,12 +1,6 @@
-﻿var App = (function (module, hostapi) {
+﻿var App = (function (module, communicator) {
 
-    module.client = hostapi.registerApp();
-    module.client.onInit(function () {
-        alert("Test App initialized!");
-    });
-    module.client.onStart(function () {
-        alert("Test App started!");
-    });
+    
 
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("btStart").addEventListener("click", function () {
@@ -15,4 +9,4 @@
     }, false);
 
     return module;
-}(App || {}, window.parent.HostApi));
+}(App || {}, ClientCommunicator));

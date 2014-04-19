@@ -1,10 +1,22 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<script>
+    $(document).ready(function () {
+        ServerApplication.fetchApplications().done(function (apps) {
+            apps.forEach(function (app) {
+                var frame = document.createElement("iframe");
+                frame.src = app.previewUrl;
+                frame.id = app.id;
+                $(".app-container").append(frame);
+                app.initialize();
+            });
+        });
+    });
+</script>
 <h3>Hosted Apps:</h3>
-<div class="app-container" ng-controller="HostCtrl">
-    <button ng-click="main.testNetworkManager()">Test Network</button>
-    <iframe ng-repeat="app in apps" src={{app.previewUrl}}></iframe>
+<div class="app-container">
+
 </div>
 <!--Test App-->
 @*<iframe src="" style="border: 1px solid #414141;"></iframe>*@

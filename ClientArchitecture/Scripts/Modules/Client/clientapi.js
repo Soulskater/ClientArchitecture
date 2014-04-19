@@ -1,26 +1,31 @@
-﻿var Client = function (id, previewUrl, url) {
+﻿var ClientApplication = function (id, previewUrl, url) {
     var obs = new Observable();
-    var initialized = false;
+    var _initialized = false;
+
+    var _types = {
+        notification: "notification",
+    }
+
+    function receiveMessage(event) {
+        if (event.origin !== "http://ClientArchitecture:8080")
+            return;
+        var data = event.data;
+        switch (data._type) {
+            case _types.notification:
+                obs.fireEvent(_types.notification);
+                break;
+            default:
+        }
+    }
 
     return {
         id: id,
         previewUrl: previewUrl,
         url: url,
-        init: function () {
-            if (initialized) return;
-            obs.fireEvent("init");
-            initialized = true;
-        },
-        start: function () { obs.fireEvent("start"); },
-        close: function () { obs.fireEvent("close"); },
-        onInit: function (handler) {
-            obs.listen("init", handler, this);
-        },
-        onStart: function (handler) {
-            obs.listen("start", handler, this);
-        },
-        onClose: function (handler) {
-            obs.listen("close", handler, this);
+        initialize: function () {
+            if (_initialized) return;
+            document.getElementById(id).addEventListener("message", receiveMessage, false);
+            _initialized = true;
         }
     }
 }

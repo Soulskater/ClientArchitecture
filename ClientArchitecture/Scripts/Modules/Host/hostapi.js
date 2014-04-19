@@ -1,35 +1,43 @@
-﻿var HostApi = (function (module, utils) {
+﻿var ServerApplication = (function (module, utils) {
 
     var obs = new Observable();
-    var apps = [];
+    var applications = [];
 
     module.initApp = function (id) {
-        apps.filter(function (app) {
+        applications.filter(function (app) {
             return app.id = id;
         })[0].init();
     }
 
     module.startApp = function (id) {
-        apps.filter(function (app) {
+        applications.filter(function (app) {
             return app.id = id;
         })[0].start();
     }
 
-    module.getApps = function () {
-        return apps;
+    module.getApplications = function () {
+        return applications;
+    }
+
+    module.fetchApplications = function () {
+        var deferred = Deferred();
+
+        $.get("api/app").done(function (apps) {
+            applications = apps.map(function (app) {
+                return new ClientApplication(utils.getGuid(),app.PreviewUrl, app.Url);
+            });
+            deferred.resolve(applications);
+        })
+        .fail(function (ex) {
+            deferred.reject(ex);
+        });
+
+        return deferred.promise;
     }
 
     module.onAppAdded = function (handler) {
         obs.listen("appAdded", handler, this);
     }
 
-    module.registerApp = function (previewUrl, url) {
-        var client = new Client(utils.getGuid(), previewUrl, url);
-        apps.push(client);
-        client.init();
-        obs.fireEvent("appAdded");
-        return client;
-    }
-
     return module;
-}(HostApi || {}, Utils));
+}(ServerApplication || {}, Utils));
