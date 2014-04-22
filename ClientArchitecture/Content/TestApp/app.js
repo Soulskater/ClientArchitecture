@@ -1,4 +1,4 @@
-﻿var App = (function (module, hostapi) {
+﻿var App = (function (module, communicator) {
 
 
 
@@ -9,7 +9,6 @@
         alert("Test App started!");
     }
 
-    module.client = hostapi.registerApp();
     module.client.onInit(module.init);
     module.client.onStart(module.start);
 

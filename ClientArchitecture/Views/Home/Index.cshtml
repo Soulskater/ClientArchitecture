@@ -3,13 +3,15 @@
 }
 <script>
     $(document).ready(function () {
-        ServerApplication.fetchApplications().done(function (apps) {
+        ServerApi.fetchApplications().done(function (apps) {
             apps.forEach(function (app) {
                 var frame = document.createElement("iframe");
                 frame.src = app.previewUrl;
                 frame.id = app.id;
                 $(".app-container").append(frame);
-                app.initialize();
+                $(frame).load(function () {
+                    ServerApi.initApp(app.id);
+                });
             });
         });
     });

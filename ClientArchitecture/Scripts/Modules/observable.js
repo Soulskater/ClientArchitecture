@@ -36,7 +36,7 @@ var Observable;
             handler = handlers[i];
             if (typeof (context) !== "undefined" && context !== handler.context) continue;
             if (handler.method.call(
-                handler.scope, this, type, data
+                handler.scope, data, type
             ) === false) {
                 return false;
             }
