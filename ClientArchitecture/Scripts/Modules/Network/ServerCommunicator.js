@@ -1,4 +1,4 @@
-﻿var ServerCommunicator = (function (observable) {
+﻿var ServerCommunicator = (function (observable, utils) {
 
     var obs = new Observable();
 
@@ -34,7 +34,8 @@
             frame.src = app.previewUrl;
             frame.id = app.id;
             frame.onload = function () {
-                frame.contentWindow.postMessage(data, "http://localhost");
+                var url = utils.parseUrl(app.previewUrl);
+                frame.contentWindow.postMessage(data, url.protocol + "//" + url.host);
             };
 
             return template ? $(template) : frame;
@@ -49,13 +50,15 @@
             if (!appFrame)
                 appFrame = document.createElement("iframe");
 
+            appFrame.id = "app";
             appFrame.src = app.url
             if (!appFrame) {
                 console.log("No App Iframe was found!");
                 return;
             }
             appFrame.onload = function () {
-                appFrame.contentWindow.postMessage(data, "http://localhost");
+                var url = utils.parseUrl(app.url);
+                appFrame.contentWindow.postMessage(data, url.protocol + "//" + url.host);
             };
 
             return appFrame;
@@ -65,5 +68,5 @@
             obs.listen(type, handler);
         }
     }
-}(Observable));
+}(Observable, Utils));
 

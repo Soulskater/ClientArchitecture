@@ -13,9 +13,14 @@ namespace ClientArchitecture.Controllers
         // GET api/app
         public IEnumerable<ApplicationModel> Get()
         {
-            return new ApplicationModel[] { new ApplicationModel() { 
+            return new ApplicationModel[] { 
+                //new ApplicationModel() { 
+                //PreviewUrl = "Content/TestApp/preview.html",
+                //AppUrl = "Content/TestApp/index.html"
+            //},
+            new ApplicationModel() { 
                 PreviewUrl = "Content/TestApp/preview.html",
-                AppUrl = "Content/TestApp/index.html"
+                AppUrl = "http://localhost:100/Content/Projects/Asteroid/Index.html"
             }};
         }
 

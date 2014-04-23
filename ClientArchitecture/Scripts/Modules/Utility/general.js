@@ -7,6 +7,19 @@
         })
     };
 
+    module.parseUrl = function (url) {
+        var parser = document.createElement('a');
+        parser.href = url;
+        return {
+            protocol: parser.protocol,
+            port: parser.port,
+            pathname: parser.pathname,
+            search: parser.search,
+            hash: parser.hash,
+            host: parser.host,
+        }
+    }
+
     module.sleep = function (seconds) {
         var date = new Date();
         while (new Date() - date < seconds * 1000)
