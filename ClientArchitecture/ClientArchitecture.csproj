@@ -199,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\jasmine.css" />
+    <Content Include="Content\Templates\ApplicationTile.html" />
     <Content Include="Content\TestApp\preview.js" />
     <Content Include="Content\TestApp\app.js" />
     <Content Include="Content\TestApp\app_style.css" />
@@ -224,7 +225,7 @@
     <Content Include="Scripts\Modules\Host\ServerApi.js" />
     <Content Include="Scripts\Modules\main.js" />
     <Content Include="Scripts\Modules\Network\ClientCommunicator.js" />
-    <Content Include="Scripts\Modules\Network\Communicator.js" />
+    <Content Include="Scripts\Modules\Network\ServerCommunicator.js" />
     <Content Include="Scripts\Modules\Network\NetworkManager.js" />
     <Content Include="Scripts\Modules\observable.js" />
     <Content Include="Scripts\Modules\UI\appmodule.js" />

@@ -18,6 +18,10 @@
                 if (!_server) _server = event.source;
                 obs.fireEvent(_types.initialize, data);
                 break;
+            case _types.start:
+                if (!_server) _server = event.source;
+                obs.fireEvent(_types.start, data);
+                break;
             default:
         }
     }

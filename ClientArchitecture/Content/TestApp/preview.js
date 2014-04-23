@@ -1,15 +1,15 @@
 ﻿var App = (function (module, communicator) {
-
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("btStart").addEventListener("click", function () {
-            communicator.pushNotification(module.id, "Foo Notify");
-        }, false);
-    }, false);
-
     module.id = null;
 
     communicator.on("initialize", function (data) {
         module.id = data.id;
+        var i = 0;
+        setInterval(function () {
+            var now = new Date();
+            document.getElementById("date").innerText = now.getMonth() + "/" + now.getDate() + "/" + now.getFullYear();
+            document.getElementById("time").innerText = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+            //communicator.pushNotification(module.id, i++);
+        }, 1000);
     });
 
     return module;

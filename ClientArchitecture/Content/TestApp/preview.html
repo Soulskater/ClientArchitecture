@@ -7,8 +7,17 @@
     <script type="text/javascript" src="../../Scripts/Modules/observable.js"></script>
     <script type="text/javascript" src="../../Scripts/Modules/Network/ClientCommunicator.js"></script>
     <script type="text/javascript" src="./preview.js"></script>
+    <style>
+        body { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+        .date { position: absolute; bottom: 0; font-weight: bold; }
+        .time { position: absolute; bottom: 0; right: 0; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <button id="btStart">push Notification</button>
+    <h4>Local Time</h4>
+    <div id="date" class="date">
+    </div>
+    <div id="time" class="time">
+    </div>
 </body>
 </html>

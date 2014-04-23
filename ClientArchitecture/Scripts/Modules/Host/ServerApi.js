@@ -3,17 +3,12 @@
     var obs = new Observable();
     var applications = [];
 
-    module.initApp = function (id) {
-        var app = applications.filter(function (app) {
-            return app.id = id;
-        })[0];
-        communicator.initializeApp(app.id);
+    module.initApp = function (app, template) {
+        return communicator.initializeApp(app, template);
     }
 
-    module.startApp = function (id) {
-        applications.filter(function (app) {
-            return app.id = id;
-        })[0].start();
+    module.startApp = function (app) {
+        return communicator.startApp(app);
     }
 
     module.getApplications = function () {
@@ -25,7 +20,7 @@
 
         $.get("api/app").done(function (apps) {
             applications = apps.map(function (app) {
-                return new ApplicationInstance(utils.getGuid(), app.PreviewUrl, app.Url);
+                return new ApplicationInstance(utils.getGuid(), app.PreviewUrl, app.AppUrl);
             });
             deferred.resolve(applications);
         })
@@ -34,10 +29,6 @@
         });
 
         return deferred.promise;
-    }
-
-    module.onAppAdded = function (handler) {
-        obs.listen("appAdded", handler, this);
     }
 
     communicator.on("notification", function (data) {

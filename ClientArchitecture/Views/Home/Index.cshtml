@@ -5,20 +5,38 @@
     $(document).ready(function () {
         ServerApi.fetchApplications().done(function (apps) {
             apps.forEach(function (app) {
-                var frame = document.createElement("iframe");
-                frame.src = app.previewUrl;
-                frame.id = app.id;
-                $(".app-container").append(frame);
-                $(frame).load(function () {
-                    ServerApi.initApp(app.id);
-                });
+                $.get("./Content/Templates/ApplicationTile.html", function (template) {
+                    var html = ServerApi.initApp(app, template);
+                    $(".app-container").append(html);
+                    $(".start", html).click(function () {
+                        $(".app").append(ServerApi.startApp(app));
+                    });
+                })
             });
         });
     });
+
+    var welcome = function () {
+        var q = 10;
+        var s = function () {
+            console.log('what is this?' + this);
+            if (q === 10) {
+                var q = 30;
+            };
+            console.log(q);
+        }
+        s();
+    }
+    welcome();
 </script>
 <h3>Hosted Apps:</h3>
 <div class="app-container">
+</div>
+
+<div class="app">
 
 </div>
+
+<iframe></iframe>
 <!--Test App-->
 @*<iframe src="" style="border: 1px solid #414141;"></iframe>*@
