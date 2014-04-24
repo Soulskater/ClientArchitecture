@@ -1,6 +1,6 @@
-﻿var ClientCommunicator = (function (observable) {
+﻿var ClientCommunicator = (function (eventManager) {
 
-    var obs = new Observable();
+    var events = new EventManager();
     var _types = {
         notification: "notification",
         initialize: "initialize",
@@ -16,11 +16,11 @@
         switch (data._type) {
             case _types.initialize:
                 if (!_server) _server = event.source;
-                obs.fireEvent(_types.initialize, data);
+                events.trigger(_types.initialize, data);
                 break;
             case _types.start:
                 if (!_server) _server = event.source;
-                obs.fireEvent(_types.start, data);
+                events.trigger(_types.start, data);
                 break;
             default:
         }
@@ -47,7 +47,7 @@
         },
         on: function (type, handler) {
             if (!_types[type]) return;
-            obs.listen(type, handler);
+            events.subscribe(type, handler);
         }
     }
-}(Observable));
+}(EventManager));

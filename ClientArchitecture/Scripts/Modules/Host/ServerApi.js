@@ -1,6 +1,6 @@
 ﻿var ServerApi = (function (module, utils, communicator) {
 
-    var obs = new Observable();
+    var events = new EventManager();
     var applications = [];
 
     module.initApp = function (app, template) {

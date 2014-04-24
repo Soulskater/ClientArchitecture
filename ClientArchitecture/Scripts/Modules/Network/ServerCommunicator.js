@@ -1,6 +1,6 @@
 ﻿var ServerCommunicator = (function (observable, utils) {
 
-    var obs = new Observable();
+    var events = new EventManager();
 
     var _types = {
         notification: "notification",
@@ -14,7 +14,7 @@
         var data = event.data;
         switch (data._type) {
             case _types.notification:
-                obs.fireEvent(_types.notification, data);
+                events.trigger(_types.notification, data);
                 break;
             default:
         }
@@ -65,8 +65,8 @@
         },
         on: function (type, handler) {
             if (!_types[type]) return;
-            obs.listen(type, handler);
+            events.subscribe(type, handler);
         }
     }
-}(Observable, Utils));
+}(EventManager, Utils));
 

@@ -3,6 +3,9 @@
 }
 <script>
     $(document).ready(function () {
+        render = new RenderCanvas($(".fg-canvas")[0]);
+        render.addObject(new Line(Point(100, 100), Point(300, 300), "#414141"));
+
         ServerApi.fetchApplications().done(function (apps) {
             apps.forEach(function (app) {
                 $.get("./Content/Templates/ApplicationTile.html", function (template) {
@@ -15,20 +18,12 @@
             });
         });
     });
-
-    var welcome = function () {
-        var q = 10;
-        var s = function () {
-            console.log('what is this?' + this);
-            if (q === 10) {
-                var q = 30;
-            };
-            console.log(q);
-        }
-        s();
-    }
-    welcome();
 </script>
+
+<canvas class="fg-canvas" width="500" height="500">
+    Your browser does not support canvas!
+</canvas>
+
 <h3>Hosted Apps:</h3>
 <div class="app-container">
 </div>
@@ -37,6 +32,6 @@
 
 </div>
 
-<iframe></iframe>
+
 <!--Test App-->
 @*<iframe src="" style="border: 1px solid #414141;"></iframe>*@

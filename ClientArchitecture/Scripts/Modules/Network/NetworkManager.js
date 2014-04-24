@@ -4,18 +4,18 @@
  * 
  * 
  */
-var networkManager = (function (observable) {
-    var eventManager = new observable();
+var networkManager = (function (eventManager) {
+    var eventman = new eventManager();
 
     var _events = {
         goOffline: 'goOffline',
         goOnline: 'goOnline',
-        itemAdded: 'itemAdded'
+        onRequest: 'onRequest'
     };
 
-    var PARALELL = 'paralell', TRANSACTION = 'transaction';
+    var _executionType = { IMMEDIATE: 'immediate', TRANSACTION: 'transaction' };
 
-    var _isOnline = false; //navigator.onLine || true;
+    var _isOnline = navigator.onLine || true;
     var _transactionQueue = [];
     var _processing = false;
 
@@ -24,7 +24,7 @@ var networkManager = (function (observable) {
      */
     var goOffline = function () {
         _isOnline = false;
-        eventManager.fireEvent(_events.goOffline);
+        eventman.trigger(_events.goOffline);
     };
 
     /*
@@ -33,36 +33,70 @@ var networkManager = (function (observable) {
     var goOnline = function () {
         _isOnline = true;
         processTransaction();
-        eventManager.fireEvent(_events.goOnline);
+        eventman.trigger(_events.goOnline);
     };
 
     /*
      * Handler, it triggers when a new item is created in the queue
      */
-    var addToQueue = function (dowork, rollback) {
-        _transactionQueue.push({ id: Utils.getGuid(), dowork: dowork, rollback: rollback });
+    var registerRequest = function (options) {
+        var request = {
+            id: options.id,
+            url: options.url,
+            executionType: options.executionType,
+            data: options.data,
+            onBefore: options.onBefore,
+            onSuccess: options.onSuccess,
+            onFail: options.onFail
+        };
+        _transactionQueue.push(request);
+
+        if (options.onBefore && typeof options.onBefore == "function") {
+            options.onBefore({
+                isOnline: _isOnline
+            });
+        }
+        eventman.trigger(_events.onRequest, request);
         console.log("New transaction is queued", _transactionQueue);
         if (!_processing) processTransaction();
     }
 
+    /*
+     * Execution on the queue
+     */
     var processTransaction = function () {
         if (_isOnline != true) return;
         if (!_processing) _processing = true;
+        if (_transactionQueue.length <= 0) {
+            _processing = false;
+            return;
+        }
 
-        var akt = _transactionQueue.shift();
-        console.log("Transaction queue process started, id:" + akt.id);
+        var request = _transactionQueue.shift();
+        console.log("Transaction queue process started, id:" + request.id);
+        processRequest(request)
+            .done(function (result) {
+                if (options.onSuccess && typeof options.onSuccess == 'function')
+                    options.onSuccess(result);
+                if (request.executionType == _executionType.TRANSACTION)
+                    processTransaction();
+            })
+            .fail(function (ex) {
+                if (options.onFail && typeof options.onFail == 'function')
+                    options.onFail();
+                if (request.executionType == _executionType.TRANSACTION)
+                    processTransaction();
+            });
+        if (request.executionType == _executionType.IMMEDIATE)
+            processTransaction();
+    }
 
-        if (akt.dowork && typeof akt.dowork == 'function')
-            akt.dowork()
-                .fail(function () {
-                    if (akt.rollback && typeof akt.rollback == 'function') akt.rollback();
-                })
-                .final(function () {
-                    if (_transactionQueue.length > 0)
-                        processTransaction();
-                    else
-                        _processing = false;
-                });
+    var processRequest = function (options) {
+        return $.ajax({
+            url: options.url,
+            type: options.type,
+            data: options.data
+        });
     }
 
     var _initialize = function () {
@@ -79,8 +113,8 @@ var networkManager = (function (observable) {
          * -handler parameter function will be called when the queue start to process it, returns with a promise
          * -rollback function called if the process fails
          */
-        withTransaction: function (handler, rollback) {
-            addToQueue(handler, rollback);
+        registerRequest: function (options) {
+            _registerRequest(options);
         },
         /*
          * Subscribe to an event
@@ -88,7 +122,7 @@ var networkManager = (function (observable) {
         on: function (type, handler) {
             if (_events[type] == undefined) return;
 
-            eventManager.listen(_events[type], handler, networkManager);
+            eventman.subscribe(_events[type], handler, networkManager);
         },
         /*
          * Unsubscribe to an event
@@ -97,17 +131,21 @@ var networkManager = (function (observable) {
             if (_events[type] == undefined) return;
             eventManager.dispatch(_events[type]);
         },
+
         emulate: function (online) {
             if (online == true)
                 goOnline();
             else
                 goOffline();
         },
+        /*
+         * Unsubscribe from events
+         */
         dispose: function () {
             window.removeEventListener('online', goOnline);
             window.removeEventListener('offline', goOffline);
             for (var event in _events)
-                eventManager.dispatch(event);
+                eventManager.unsubscribe(event);
         }
     }
-}(Observable));
+}(EventManager));

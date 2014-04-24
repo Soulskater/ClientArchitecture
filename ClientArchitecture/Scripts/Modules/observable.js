@@ -1,12 +1,12 @@
 ﻿/***************************************************************
 *
-*   Observable
+*   EventManager
 *
 ***************************************************************/
-var Observable;
-(Observable = function () {
+var EventManager;
+(EventManager = function () {
 }).prototype = {
-    listen: function (type, method, scope, context) {
+    subscribe: function (type, method, scope, context) {
         var listeners, handlers, scope;
         if (!(listeners = this.listeners)) {
             listeners = this.listeners = {};
@@ -21,10 +21,10 @@ var Observable;
             context: (context ? context : scope)
         });
     },
-    dispatch: function (type) {
+    unsubscribe: function (type) {
         listeners.splice(listeners.indexOf(type), 1);
     },
-    fireEvent: function (type, data, context) {
+    trigger: function (type, data, context) {
         var listeners, handlers, i, n, handler, scope;
         if (!(listeners = this.listeners)) {
             return;
