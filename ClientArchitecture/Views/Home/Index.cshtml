@@ -3,7 +3,7 @@
 }
 <script>
     $(document).ready(function () {
-        render = new RenderCanvas($(".fg-canvas")[0]);
+        render = new RenderCanvas($(".bg-canvas")[0], $(".fg-canvas")[0]);
         render.addObject(new Line(Point(100, 100), Point(300, 300), "#414141"));
 
         ServerApi.fetchApplications().done(function (apps) {
@@ -19,11 +19,14 @@
         });
     });
 </script>
-
-<canvas class="fg-canvas" width="500" height="500">
-    Your browser does not support canvas!
-</canvas>
-
+<div style="position:relative;">
+    <canvas class="bg-canvas" width="500" height="500">
+        Your browser does not support canvas!
+    </canvas>
+    <canvas class="fg-canvas" width="500" height="500">
+        Your browser does not support canvas!
+    </canvas>
+</div>
 <h3>Hosted Apps:</h3>
 <div class="app-container">
 </div>
