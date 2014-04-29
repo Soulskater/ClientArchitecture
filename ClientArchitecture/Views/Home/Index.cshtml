@@ -3,20 +3,34 @@
 }
 <script>
     $(document).ready(function () {
-        render = new RenderCanvas($(".bg-canvas")[0], $(".fg-canvas")[0]);
-        render.addObject(new Line(Point(100, 100), Point(300, 300), "#414141"));
+        //ServerApi.fetchApplications().done(function (apps) {
+        //    apps.forEach(function (app) {
+        //        $.get("./Content/Templates/ApplicationTile.html", function (template) {
+        //            var html = ServerApi.initApp(app, template);
+        //            $(".app-container").append(html);
+        //            $(".start", html).click(function () {
+        //                $(".app").append(ServerApi.startApp(app));
+        //            });
+        //        })
+        //    });
+        //});
 
-        ServerApi.fetchApplications().done(function (apps) {
-            apps.forEach(function (app) {
-                $.get("./Content/Templates/ApplicationTile.html", function (template) {
-                    var html = ServerApi.initApp(app, template);
-                    $(".app-container").append(html);
-                    $(".start", html).click(function () {
-                        $(".app").append(ServerApi.startApp(app));
-                    });
-                })
-            });
+        //1 register
+        networkManager.emulate(false);
+
+        //ctor param: datacontext, offline/online flag(ko.observable)
+        //prop:isprocessing (ko.observable) ???
+        networkManager.setDataContext(cortex.beam.data.repository.data);
+        networkManager.registerRequest({
+            id: "readDeal",
+            formatter: function (dealNo, dealStatus) {return "";}
+            executionType: "transaction",
+            onBefore: function (dealNo, dealStatus,datacontext) { console.log("Do something before the request!"); },
+            onSuccess: function (dealNo, dealStatus,datacontext) { console.log("The request is successfully executed!"); },
+            onFail: function (dealNo, dealStatus,datacontext) { console.log("Something went wrong!"); }
         });
+        //1 usage
+        networkManager.readDeal(dealNo, dealStatus);
     });
 </script>
 <div style="position:relative;">
@@ -35,6 +49,9 @@
 
 </div>
 
+<script>
+
+</script>
 
 <!--Test App-->
 @*<iframe src="" style="border: 1px solid #414141;"></iframe>*@

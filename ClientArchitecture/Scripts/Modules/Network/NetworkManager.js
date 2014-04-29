@@ -4,12 +4,12 @@
  * 
  * 
  */
-var networkManager = (function (eventManager) {
+var networkManager = (function (eventManager, deferred) {
     var eventman = new eventManager();
 
     var _events = {
-        goOffline: 'goOffline',
-        goOnline: 'goOnline',
+        offline: 'offline',
+        online: 'online',
         onRequest: 'onRequest'
     };
 
@@ -18,47 +18,40 @@ var networkManager = (function (eventManager) {
     var _isOnline = navigator.onLine || true;
     var _transactionQueue = [];
     var _processing = false;
+    var _registeredTypes = [];
+
 
     /*
      * Handler, it triggers when the browser goes to offline
      */
-    var goOffline = function () {
+    var offline = function () {
         _isOnline = false;
-        eventman.trigger(_events.goOffline);
+        eventman.trigger(_events.offline);
     };
 
     /*
      * Handler, it triggers when the browser goes to online
      */
-    var goOnline = function () {
+    var online = function () {
         _isOnline = true;
         processTransaction();
-        eventman.trigger(_events.goOnline);
+        eventman.trigger(_events.online);
     };
 
     /*
      * Handler, it triggers when a new item is created in the queue
      */
-    var registerRequest = function (options) {
+    var _registerRequest = function (options) {
         var request = {
             id: options.id,
-            url: options.url,
+            version: options.version,
+            formatter: options.formatter,
             executionType: options.executionType,
-            data: options.data,
             onBefore: options.onBefore,
             onSuccess: options.onSuccess,
             onFail: options.onFail
         };
-        _transactionQueue.push(request);
-
-        if (options.onBefore && typeof options.onBefore == "function") {
-            options.onBefore({
-                isOnline: _isOnline
-            });
-        }
-        eventman.trigger(_events.onRequest, request);
-        console.log("New transaction is queued", _transactionQueue);
-        if (!_processing) processTransaction();
+        _registeredTypes.push(request);
     }
 
     /*
@@ -73,35 +66,42 @@ var networkManager = (function (eventManager) {
         }
 
         var request = _transactionQueue.shift();
-        console.log("Transaction queue process started, id:" + request.id);
-        processRequest(request)
-            .done(function (result) {
-                if (options.onSuccess && typeof options.onSuccess == 'function')
-                    options.onSuccess(result);
-                if (request.executionType == _executionType.TRANSACTION)
-                    processTransaction();
-            })
-            .fail(function (ex) {
-                if (options.onFail && typeof options.onFail == 'function')
-                    options.onFail();
-                if (request.executionType == _executionType.TRANSACTION)
-                    processTransaction();
-            });
+        console.log("Request process started, id: " + request.id);
+        _processRequest(request).done(function (result) {
+            if (request.onSuccess && typeof request.onSuccess == 'function')
+                request.onSuccess(result);
+        }).fail(function (ex) {
+            if (request.onFail && typeof request.onFail == 'function')
+                request.onFail();
+        }).final(function () {
+            if (request.executionType == _executionType.TRANSACTION)
+                processTransaction();
+        });
         if (request.executionType == _executionType.IMMEDIATE)
             processTransaction();
     }
 
-    var processRequest = function (options) {
-        return $.ajax({
+    /*
+     * Creates the real ajax call based on the options
+     */
+    var _processRequest = function (options) {
+        var defer = deferred();
+        $.ajax({
             url: options.url,
             type: options.type,
             data: options.data
+        }).done(function (result) {
+            defer.resolve(result);
+        }).fail(function (ex) {
+            defer.reject(ex);
         });
+
+        return defer.promise;
     }
 
     var _initialize = function () {
-        window.addEventListener('online', goOnline);
-        window.addEventListener('offline', goOffline);
+        window.addEventListener('online', online);
+        window.addEventListener('offline', offline);
     }
 
     _initialize();
@@ -132,20 +132,23 @@ var networkManager = (function (eventManager) {
             eventManager.dispatch(_events[type]);
         },
 
-        emulate: function (online) {
-            if (online == true)
-                goOnline();
+        /*
+         * TEST FUNCTION
+         */
+        emulate: function (goOnline) {
+            if (goOnline == true)
+                online();
             else
-                goOffline();
+                offline();
         },
         /*
-         * Unsubscribe from events
+         * Dispose, unsubscribe from events
          */
         dispose: function () {
-            window.removeEventListener('online', goOnline);
-            window.removeEventListener('offline', goOffline);
+            window.removeEventListener('online', online);
+            window.removeEventListener('offline', offline);
             for (var event in _events)
                 eventManager.unsubscribe(event);
         }
     }
-}(EventManager));
+}(EventManager, Deferred));
